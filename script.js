@@ -1,16 +1,11 @@
 
-/*document.getElementById("todoButton").onclick = function() {displayingTodo()}
-
-function displayingTodo() {
-    let x = document.getElementById("inputText").value
-    console.log(x)
-}*/ 
-
-//------------
-//sample of start-values
-//Model section
+//datePicker.min = new Date().toISOString().split("T")[0];
+function getCurrentDate() {
+    let date = new Date().getTime()
+    return date
+}
 let todos //[{title: "Wash a car", dueDate:"2021-03-04", id: "id1"},{title: "Wash a cucumber", dueDate:"2021-04-04", id: "id2"}]
-
+//Model
 function retrievingData() {
     const items = JSON.parse(localStorage.getItem('todos'))
     if(Array.isArray(items)) {
@@ -161,7 +156,7 @@ function render() {
             updateButton.onclick = onUpdate
             element.appendChild(updateButton)
         }else {
-                element.innerText = todo.title + todo.dueDate //todo text, "Wash a car" + date
+                element.innerText = todo.title + ' '+ todo.dueDate //todo text, "Wash a car" + date
 
             const checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
@@ -187,44 +182,36 @@ function render() {
             deleteButton.id = todo.id //assigning todo.id to the button id
             element.appendChild(deleteButton)
         }
-
+        
         
 
         const todoList = document.getElementById("todoDisplay")
         todoList.appendChild(element) //adding a todo, date and a DeleteButton to the div, created previously
         console.log(`Added to body element: div: ${todo.title} ${todo.dueDate} `)
     })
+    addCustomStyleDeleteButton()
 }
 
-/*function render() {
-    //function renders a todo-list
 
-        document.getElementById('todoDisplay').innerHTML = '' //erasing all displayed todos in DOM
+function getDisplayButtons() {
+    const nodeList= document.querySelectorAll('#todoDisplay > div > button');
+    return nodeList
+}
 
-        todos.forEach(function(todo) { //statement for each todo from array
-        const element = document.createElement('div')
-        element.innerText = todo.title + todo.dueDate //todo text, "Wash a car" + date
-
-        const checkbox = document.createElement('input')
-        checkbox.type = 'checkbox'
-        checkbox.onchange = checkTodo
-        
-        checkbox.dataset.todoId = todo.id
-        if(todo.isDone === true) {
-            checkbox.checked = true
-        }else {
-            checkbox.checked = false
+function addCustomStyleDeleteButton() {
+    const nodeList = getDisplayButtons()
+    for (let i = 0; i <= nodeList.length; i++) {
+        if(i%2!=0) {
+            nodeList[i].style.backgroundColor = "red";
+            /* Clear all previous hover classes */
+            nodeList[i].classList.remove('HoverClassDeleteButton','ClickClassDeleteButton');
+            /* Set the desired hover class */
+            nodeList[i].classList.add('HoverClassDeleteButton');
+            nodeList[i].classList.add('ClickClassDeleteButton');  
+            console.log('change color')
         }
-        element.prepend(checkbox)
         
-        const deleteButton = document.createElement('button')
-        deleteButton.innerText = "Delete"
-        deleteButton.onclick = deleteTodo //function on button, while onclick event occurs
-        deleteButton.id = todo.id //assigning todo.id to the button id
-        element.appendChild(deleteButton)
+    }
+}
 
-        const todoList = document.getElementById("todoDisplay")
-        todoList.appendChild(element) //adding a todo, date and a DeleteButton to the div, created previously
-        console.log(`Added to body element: div: ${todo.title} ${todo.dueDate} `)
-    })
-}*/
+addCustomStyleDeleteButton()
