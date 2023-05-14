@@ -124,7 +124,10 @@ function checkTodo(event) {
     render()
 }
 
-
+function getDisplayButtons() {
+    const nodeList= document.querySelectorAll('#todoDisplay > div > button');
+    return nodeList
+}
 
 //View
 
@@ -143,6 +146,7 @@ function render() {
             const textbox = document.createElement('input')
             textbox.type='text'
             textbox.id = 'edit-title-'+ todo.id
+            textbox.setAttribute("maxlength","24")
             element.appendChild(textbox)
 
             const datePicker = document.createElement('input')
@@ -192,26 +196,26 @@ function render() {
     addCustomStyleDeleteButton()
 }
 
-
-function getDisplayButtons() {
-    const nodeList= document.querySelectorAll('#todoDisplay > div > button');
-    return nodeList
-}
-
 function addCustomStyleDeleteButton() {
     const nodeList = getDisplayButtons()
-    for (let i = 0; i <= nodeList.length; i++) {
-        if(i%2!=0) {
-            nodeList[i].style.backgroundColor = "red";
+    for (let i = 0; i <= nodeList.length-1; i++) {
+        if(nodeList[i].innerText === "Delete") {
+            console.log(nodeList[i].id,nodeList[i].innerText)
+            nodeList[i].style.backgroundColor = "#FF502A";
             /* Clear all previous hover classes */
             nodeList[i].classList.remove('HoverClassDeleteButton','ClickClassDeleteButton');
             /* Set the desired hover class */
             nodeList[i].classList.add('HoverClassDeleteButton');
             nodeList[i].classList.add('ClickClassDeleteButton');  
-            console.log('change color')
+            //console.log('change color')
+        }else {
+            void(0)
         }
         
     }
 }
+
+
+
 
 addCustomStyleDeleteButton()
